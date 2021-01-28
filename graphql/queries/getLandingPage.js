@@ -31,5 +31,5 @@ export async function getLandingPage (variables) {
     variables
   )
 
-  return landingPage;
+  return { landingPage };
 }

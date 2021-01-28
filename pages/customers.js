@@ -4,7 +4,7 @@ import { Customer } from '../components/Customer'
 import { getCustomers } from '../graphql/queries/getCustomers'
 
 export async function getStaticProps() {
-  const customers = await getCustomers();
+  const { customers } = await getCustomers();
 
   try { 
     return {
@@ -33,12 +33,12 @@ export default function Customers({ customers }) {
         {(customers ?? []).map(({ 
           id,
           name, 
-          logo: { url }
+          logo: { url } = {}
         }) => (
           <Customer
             key={id}
-            customerName={name}
             logoUrl={url}
+            customerName={name}
           />
         ))}
       </SimpleGrid>

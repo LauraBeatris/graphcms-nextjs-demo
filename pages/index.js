@@ -7,7 +7,7 @@ const LANDING_PAGE_ID = "ckkgz411s0ir70a36qsv5qchv"
 
 export async function getStaticProps() {
   try {
-    const landingPage = await getLandingPage({
+    const { landingPage } = await getLandingPage({
       id: LANDING_PAGE_ID
     })
 
@@ -38,13 +38,17 @@ export default function Home({ landingPage }) {
         {body}
       </Heading>
 
-      <SimpleGrid columns={2} spacing={10} marginTop={10}>
+      <SimpleGrid 
+        columns={2} 
+        spacing={10}
+        marginTop={10}
+      >
         {customerQuotes.map(({ 
           id,
           quote, 
           customer: { 
-            logo: { url }
-          }, 
+            logo: { url } = {}
+          } = {}, 
           speakerName 
         }) =>  (
           <Quote

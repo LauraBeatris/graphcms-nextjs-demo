@@ -20,5 +20,5 @@ export async function getCustomers () {
     GET_CUSTOMERS_QUERY
   )
 
-  return customers;
+  return { customers };
 }
