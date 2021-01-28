@@ -1,6 +1,6 @@
 import { gql } from 'graphql-request'
 
-import { GraphQLClient } from '../../config/GraphQLClient'
+import { GraphQLClient } from '../../config/graphQLClient'
 
 const GET_LANDING_PAGE_QUERY = gql`
   query GetLandingPage($id: ID!) {
