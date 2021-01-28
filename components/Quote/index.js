@@ -11,6 +11,7 @@ export function Quote({
       spacing={4}
       alignItems='flex-start'
       borderRadius='md'
+      justifyContent='space-between'
       backgroundColor='white' 
     >
        <Text as="cite">{quote}</Text>

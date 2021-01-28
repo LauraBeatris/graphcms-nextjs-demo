@@ -1,34 +1,62 @@
 import { VStack, Heading, SimpleGrid } from '@chakra-ui/react'
-import { Quote } from '../components/Quote'
 
-export default function Home() {
+import { Quote } from '../components/Quote'
+import { getLandingPage } from '../graphql/queries/getLandingPage'
+
+const LANDING_PAGE_ID = "ckkgz411s0ir70a36qsv5qchv"
+
+export async function getStaticProps() {
+  try {
+    const landingPage = await getLandingPage({
+      id: LANDING_PAGE_ID
+    })
+
+    return {
+      props: {
+        landingPage
+      }
+    }
+  } catch (error) {
+    console.log(error)
+
+    return {
+      props: {}
+    }
+  }
+}
+
+export default function Home({ landingPage }) {
+  const { title, body, customerQuotes = [] } = landingPage ?? {}
+
+  console.log(customerQuotes)
+
   return (
     <VStack spacing={10} alignItems='flex-start'>
-        <Heading as="h1">Landing Page Title</Heading>
-        <Heading 
-          as="h2" 
-          fontSize={20} 
-          marginTop={2} 
-          fontWeight={400}
-        >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-          In felis risus, posuere sed porttitor eget, consectetur sed velit. 
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </Heading>
+      <Heading as="h1">{title}</Heading>
+      <Heading 
+        as="h2" 
+        fontSize={20} 
+        marginTop={2} 
+        fontWeight={400}
+      >
+        {body}
+      </Heading>
 
-        <SimpleGrid columns={2} spacing={10} marginTop={10}>
+      <SimpleGrid columns={2} spacing={10} marginTop={10}>
+        {customerQuotes.map(({ 
+          quote, 
+          customer: { 
+            logo: { url }
+          }, 
+          speakerName 
+        }) =>  (
           <Quote
-            quote="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-            logoUrl="https://bit.ly/sage-adebayo"
-            speakerName="Segun Adebayo"
+            quote={quote}
+            logoUrl={url}
+            speakerName={speakerName}
           />
-
-          <Quote 
-            quote="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-            logoUrl="https://bit.ly/sage-adebayo"
-            speakerName="Segun Adebayo"
-          />
-        </SimpleGrid>
+        ))}
+      </SimpleGrid>
     </VStack>
   )
 }
