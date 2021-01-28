@@ -1,28 +1,49 @@
 import { VStack, Heading, SimpleGrid } from '@chakra-ui/react'
 
 import { Customer } from '../components/Customer'
+import { getCustomers } from '../graphql/queries/getCustomers'
 
-export default function Customers() {
+export async function getStaticProps() {
+  const customers = await getCustomers();
+
+  console.log(customers)
+
+  try { 
+    return {
+      props: { 
+        customers 
+      }
+    }
+  } catch (error) {
+    return {
+      props: {}
+    }
+  }
+}
+
+export default function Customers({ customers }) {
   return (
     <VStack spacing={10} alignItems='flex-start'>
-        <Heading as="h1">Customers</Heading>
+      <Heading as="h1">Customers</Heading>
 
-        <SimpleGrid 
-          width='full'
-          columns={2} 
-          spacing={10} 
-          marginTop={10} 
-        >
+      <SimpleGrid 
+        width='full'
+        columns={2} 
+        spacing={10} 
+        marginTop={10} 
+      >
+        {(customers ?? []).map(({ 
+          id,
+          name, 
+          logo: { url }
+        }) => (
           <Customer
-            customerName="Segun Adebayo"
-            logoUrl="https://bit.ly/sage-adebayo"
+            key={id}
+            customerName={name}
+            logoUrl={url}
           />
-
-          <Customer 
-            customerName="Segun Adebayo"
-            logoUrl="https://bit.ly/sage-adebayo"
-          />
-        </SimpleGrid>
+        ))}
+      </SimpleGrid>
     </VStack>
   )
 }

@@ -28,8 +28,6 @@ export async function getStaticProps() {
 export default function Home({ landingPage }) {
   const { title, body, customerQuotes = [] } = landingPage ?? {}
 
-  console.log(customerQuotes)
-
   return (
     <VStack spacing={10} alignItems='flex-start'>
       <Heading as="h1">{title}</Heading>
@@ -44,6 +42,7 @@ export default function Home({ landingPage }) {
 
       <SimpleGrid columns={2} spacing={10} marginTop={10}>
         {customerQuotes.map(({ 
+          id,
           quote, 
           customer: { 
             logo: { url }
@@ -51,6 +50,7 @@ export default function Home({ landingPage }) {
           speakerName 
         }) =>  (
           <Quote
+            id={id}
             quote={quote}
             logoUrl={url}
             speakerName={speakerName}
