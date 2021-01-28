@@ -6,8 +6,6 @@ import { getCustomers } from '../graphql/queries/getCustomers'
 export async function getStaticProps() {
   const customers = await getCustomers();
 
-  console.log(customers)
-
   try { 
     return {
       props: { 
